@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from .models import Question
 from django.shortcuts import render, get_object_or_404, redirect
+from .models import Question
 from django.utils import timezone
+from forms import QuestionForm, AnswerForm
 # Create your views here.
 
 def index(request):
@@ -28,10 +28,25 @@ def answer_create(request, question_id):
     pybo 답변등록
     """
     question = get_object_or_404(Question, pk=question_id)
-    question.answer_set.create(content=request.POST.get('content'),
-                create_date=timezone.now())
 
-    return redirect('pybo:detail', question_id=question_id)
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.create_date = timezone.now()
+            answer.question = question  # Foreignkey
+            answer.save()
+            return redirect('pybo:detail', question_id=question_id)
+    else: # get 방식.
+        form = AnswerForm()
+    context = {'question': question, 'form': form}
+    return render(request, 'pybo/question_detail.html', context)
+
+
+    # question.answer_set.create(content=request.POST.get('content'),
+    #             create_date=timezone.now())
+
+    # return redirect('pybo:detail', question_id=question_id)
     # print(request.method)
     # print(request.GET)      # dict
     # print(request.POST)     # dict
@@ -39,10 +54,28 @@ def answer_create(request, question_id):
     # content = request.POST['content']           # 1) 키가 없으면, 예외 발생
     # print('[content]', content)
 
-    content = request.POST.get('content', '')       # 2) 키가 없으면, None 리턴
+    # content = request.POST.get('content', '')       # 2) 키가 없으면, None 리턴
 
 
-    print('get(content)', content)
+    # print('get(content)', content)
+
+
+def question_create(request):
+    """
+    pybo 질문등록
+    """
+    if request.method == 'POST':    # submit을 통한 POST 요청
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.create_date = timezone.now()
+            question.save()
+            return redirect('pybo:index')
+    else:                           # GET 요청
+        form = QuestionForm()
+
+    context = {'form': form}
+    return render(request, 'pybo/question_form.html', context)
 
 
 

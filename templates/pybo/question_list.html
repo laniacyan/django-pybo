@@ -31,5 +31,9 @@
       </tbody>
     </table>
   </div>
-
+      <a href="{% url 'pybo:question_create' %}" class="btn btn-primary mr-2">
+        <i class="fa-regular fa-paper-plane"></i>
+        질문 등록하기
+      </a>
+      {% comment %} <a href="{% url 'pybo:question_create' %}" class="btn btn-primary"></a> {% endcomment %}
 {% endblock content %}
