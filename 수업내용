@@ -175,6 +175,192 @@ url은 동적파일 경로를 만들때 사용한다.
 지금은 안그러고 있는데 안바뀔 수도 있어요.
 
 
+우선 이제까지 한 내용을 전부 커밋합시다.
+
+
+여러분들 깃허브로부터 메일을 하나 받으셨을 거에요.
+
+여러분의 장고 시크릿 키가 노출됐다. 위험하다! 라는 의미?
+
+
+세팅에 있는 
+SECRET_KEY = "django-insecure-_cs=4282$b2_2wp4*1-@2f8yiqpwizkp2gktg)tr62w84#3g7#"
+이것은 시크릿 키다.
+이것이 있으면 csrf 토큰을 만들 수 있다.
+
+부트스트랩
+
+min 파일은 탭, 공백, 개행문자 등으로 보기좋게 정리된 대신 크기가 늘어난 파일을
+탭, 공백, 개행문자를 전부 지워 한줄로 만든 것이다.
+
+
+부트스트랩을 이용해서 표 형태로 만들자.
+
+
+
+적용이 됐는지 알 수 있는 방법이 없다.
+
+혹시 개발자 모드를 써 봤냐
+
+안써봐싿
+
+브라우저마다 개발자에게 좀 더 많은 기능을 주는 모드가 있다.
+
+우리가 개발할 때 굉장히 많은 정보를 얻을 수 있습니다.
+
+그래서 개발할때 일반적으로 항상 켜 놔요.
+
+HTML의 구조가 어떻게 되어 있는가
+트리 형태로 확인할 수 있고요
+
+밑에 보면 각 아이템마다 스타일이 어떻게 적용되어 있는지 확인할 수 있고요
+
+여백이 얼만지 사이즈가 얼만지 구체적으로 확인할 수 있습니다.
+
+
+우리는 css파일이 제대로 포함되었는지 확인하고 싶은거에요.
+
+빨간 마크가 보이죠? 에러가 2개 있다는 의미입니다.
+
+콘솔 탭이 있어요.
+
+위에 보면 엘리먼트 탭, 콘솔 탭, 있는데
+
+콘솔로 들어가 봅니다.
+
+404에러가 났다.
+
+css파일의 경로가 잘못되었다 이소리죠.
+
+그럼 내가 이걸보고 아 내가 경로를 잘못 적었구나 확인할 수 있는거에요.
+보니까 오타가 있었네요.
+
+일부러 냈던 오타를 지우고 새로고침 하면 사라졌죠?
+
+보니까 또 뭔가 에러가 있는데 이건 빨간색이 아닌 노란색으로 나오죠?
+
+map파일이 필요하다.
+min파일은 한 줄로 요약됐기 때문에 원본에 어느 라인에 에러가 났는지 확인할 수가 없다.
+그 위치를 파악하게 해주는 것이 map파일이다.
+
+이 css파일은 검증된 파일이니 맵 파일이 없어도 문제없이 동작한다.
+
+
+링크의 스타일이 달라졌죠? 밑줄도 달라졌고.
+
+부트 스트랩에서 정의하고 있는 디폴트 스타일이 적용된 것이다.
+
+
+그럼 이제 부트스트랩 스타일이 준비가 됐고요
+자 그러면 먼저 첫번째
+div태그를 먼저 보도록 하겠습니다.
+
+div태그로 감쌀건데요
+
+클래스로 배정하고 있습니다.
+
+
+
+그리고 여기서 정의하는 class는 전부 다 위에서 정의하고 있는 class에요.
+
+
+
+바깥에 있는 주황색 부분이 마진.
+연두색 부분이 패딩.
+안에 있는 옅은 파란색이 ?
+
+보고 싶은 요소에 커서를 대면 다 보인다.
+
+container 클래스가 중앙에 위치하게 해준 친구다.
+
+my-3의 m은 마진의 약자. y축으로 주겠다. -3 크기를 말한다. 1~5 사이에서 선택할 수 있다. 3이 기본 크기다.
+줄일수록 작아지고 늘릴수록 커진다.
+
+
+
+
+
+
+
+수요일-----------------------------------------
+conda activate iot를 입력해 iot 가상환경을 준비한다.
+
+python manage.py runserver를 입력해 서버를 실행한다.
+
+
+
+Spacing
+Bootstrap 4 has a wide range of responsive margin and padding utility classes. They work for all breakpoints: xs (<=576px), sm (>=576px), md (>=768px), lg (>=992px) or xl (>=1200px)):
+
+The classes are used in the format: {property}{sides}-{size} for xs and {property}{sides}-{breakpoint}-{size} for sm, md, lg, and xl.
+
+Where property is one of:
+
+m - sets margin
+p - sets padding
+Where sides is one of:
+
+t - sets margin-top or padding-top
+b - sets margin-bottom or padding-bottom
+l - sets margin-left or padding-left
+r - sets margin-right or padding-right
+x - sets both padding-left and padding-right or margin-left and margin-right
+y - sets both padding-top and padding-bottom or margin-top and margin-bottom
+blank - sets a margin or padding on all 4 sides of the element
+Where size is one of:
+
+0 - sets margin or padding to 0
+1 - sets margin or padding to .25rem (4px if font-size is 16px)
+2 - sets margin or padding to .5rem (8px if font-size is 16px)
+3 - sets margin or padding to 1rem (16px if font-size is 16px)
+4 - sets margin or padding to 1.5rem (24px if font-size is 16px)
+5 - sets margin or padding to 3rem (48px if font-size is 16px)
+auto - sets margin to auto
+Note: margins can also be negative, by adding an "n" in front of size:
+
+n1 - sets margin to -.25rem (-4px if font-size is 16px)
+n2 - sets margin to -.5rem (-8px if font-size is 16px)
+n3 - sets margin to -1rem (-16px if font-size is 16px)
+n4 - sets margin to -1.5rem (-24px if font-size is 16px)
+n5 - sets margin to -3rem (-48px if font-size is 16px)
+
+
+카드 만들기.
+
+유튜브의 화면이 대부분 카드로 이루어진 것이다.
+
+
+
+pre태그를 사용하면 있는 그대로 콘텐츠가 보인다.
+
+white-space
+공백, 탭, 엔터 등을 나타내는 말.
+
+style="white-space: pre-line;"
+pre-line은 엔터만 pre태그처럼 해라.
+
+1줄에 담지 않아서 \n이 들어가 있을수도 있다.
+
+
+
+flex는 css의 함수? 로서 x축과 y축 둘 다 조절할 수 있다.
+
+
+
+페이지 내에 각각의 블럭이 있다.
+타이틀 블럭, 메뉴 블럭, 사이드 블럭, 푸터 블럭
+
+블럭을 통해 원하는 부분을 고를 수 있다.
+
+
+icon 찾기
+fontawesome을 쳐서 들어가면 아이콘이 많다.
+
+fontawesome cdn을 붙여 검색하면 뭔가 된다?
+
+
+
+
 
 
 
