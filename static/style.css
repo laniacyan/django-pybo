@@ -4,10 +4,13 @@
 * {
     font-family: 'Noto Sans KR', sans-serif;
 }
+/* 전체 폰트를 바꿨다.
+fonts.google.com에서 수많은 폰트를 찾을 수 있다.
+원하는 폰트를 선택 후 사이즈를 선택해 주소를 복사해 사용하면 된다. */
 
-
-
-
+.page-link {
+    border: 0px;
+}
 
 
 

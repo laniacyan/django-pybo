@@ -1,5 +1,18 @@
 
 
+가상 환경 실행 방법
+activate iot
+
+python manage.py runserver
+
+
+
+
+
+
+
+
+
 
 MTV 패턴
 Model Templit View
@@ -444,6 +457,221 @@ return redirect('pybo:index') => 목록보기로 이동
 제일 처음 질문 등록하기로 들어오면 기본 내용은 None이다.
 
 
+
+
+
+
+
+
+
+목요일-----------------------------------------
+
+
+form을 사용하는 이유에 대해 알아보았다.
+
+form을 사용하면 예외 처리(오류시 처리)가 매우 편해진다.
+form을 사용하지 않으면 요청별로 예외처리를 일일히 다 해야해서 매우 힘들어진다.
+(처리를 위해 get으로 받아와야 한다.)
+
+vsc 설정을 바꾸기 위해 다시 설치했다.
+맨 처음 시작할때 아래 있는 4개의 상자 중 체크 안되어있는 상단 2개 상자를 체크하고 설치했다.
+
+
+네비게이션 기능을 추가할 것이다.
+
+
+<nav class="navbar navbar-expand-sm bg-light">
+
+navbar이다, sm보다 작아지면 햄버거 메뉴가 되고, 그보다 크면 펼쳐라. 배경색은 light.
+
+nav bar는 ul - li로 구성한다.
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <a class="navbar-brand" href="{% url 'pybo:index' %}">Pybo</a>
+    <button class="navbar-toggler ml-auto" type="button" 
+        data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" 
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a class="nav-link" href="#">로그인</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+햄버거 버튼을 구성하는 코드다.
+
+ml-auto
+버튼을 항상 오른쪽 끝으로 오게 한다.
+
+data-toggle="collapse" data-target="#navbarNav"
+
+"#navbarNav" => #이 붙었으므로 id 선택
+data-target => 타겟은 navbarNav 이다.
+
+id="navbarNav" 를 접겠다.
+
+<div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+이 영역을 접었다 폈다 할 수 있다.
+
+<span class="navbar-toggler-icon"></span>
+햄버거 아이콘을 의미한다. 다른것으로 바꾸면 바뀐다.
+
+
+
+<ul class="navbar-nav">                         => 메뉴 그룹
+    <li class="nav-item ">                      => 보통 이곳에서 수정이 많이 발생한다(li).
+        <a class="nav-link" href="#">로그인</a>
+    </li>
+</ul>
+
+
+
+
+
+include 적용하기
+{% include "navbar.html" %} => 템플릿에서 불러오는 기법
+
+
+페이지네이션
+목록 보기 페이지에서 페이지 단위로 출력
+localhost:8000/pybo/?page=1     get 형식.
+view 함수에서 request.GET.get('page')
+    보고 싶은 페이지를 page 쿼리 변수로 지정
+    생략시 디폴트 1 페이지
+
+
+subject = f'테스트 데이터입니다: [{i:03d}]',
+content = f'테스트 데이터의 내용입니다: [{i:03d}]',
+
+[{i:03d}]
+i를 표기하되
+
+0 => 빈자리는 0으로 채우고
+3 => 3자리가 되도록 하라.
+d => 10진수로 표기하고
+03d => 빈자리가 0으로 채워지는 10진수로 이루어진 3자리 숫자로 표기하라.
+5:03d => 005
+12:03d => 012
+
+python manage.py shell
+=> shell로 들어간다.
+
+
+---
+from pybo.models import Question
+from django.utils import timezone
+---
+for i in range(300):
+    q = Question(
+        subject = f'테스트 데이터입니다: [{i:03d}]',
+        content = f'테스트 데이터의 내용입니다: [{i:03d}]',
+        create_date = timezone.now()
+    )
+    q.save()
+
+
+---
+차례대로 입력하면 데이터베이스에 입력이 된다.
+
+2번째는 어째서인지 1칸을 띄우라고 했다.
+
+
+
+question_list.html에 아래와 같은 틀을 넣었다.
+
+<ul class="pagination">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item"><a class="page-link" href="#">1</a></li>
+  <li class="page-item"><a class="page-link" href="#">2</a></li>
+  <li class="page-item"><a class="page-link" href="#">3</a></li>
+  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
+
+
+
+</table>
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+    <!-- 이전페이지 -->
+    {% if question_list.has_previous %}             =>question_list == page 객체
+    <li class="page-item">
+        <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
+      </li>
+    {% else %}                                      => page = 1
+    <li class="page-item disabled">
+    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+    </li>
+    {% endif %}
+
+
+aria == 스크린 리더기
+aria-disabled == 스크린 리더기 기능을 비활성화 했다.
+
+
+
+페이지 리스트를 만드는 식
+{% for page_number in question_list.paginator.page_range %}
+    {% if page_number == question_list.number %}
+    <li class="page-item active" aria-current="page">
+        <a class="page-link" href="#">{{ page_number }}</a>
+    </li>
+    {% else %}
+    <li class="page-item">
+        <a class="page-link" href="#">{{ page_number }}</a>
+    </li>
+    {% endif %}
+{% endfor %}
+
+
+페이지 표시 제한 기능 구현하기
+| => 필터.
+
+필터 왼쪽에 있는 제시값이 함수의 매개변수로 전달된다.
+값|함수
+question_list.number|add:-5 and
+...
+
+필터 사용시에 공백이 들어가면 안된다.
+
+템플릿 태그는 반드시 1줄에 표현해야 한다.
+{% 이것이 템플릿 태그. %}
+
+{% load mathfilters %} 
+
+
+<h1>Basic math filters</h1>
+
+<ul>
+    <li>8 + 3 = {{ 8|add:3 }}</li>
+
+    <li>13 - 17 = {{ 13|sub:17 }}</li>
+
+    {% with answer=42 %}
+    <li>42 * 0.5 = {{ answer|mul:0.5 }}</li>
+    {% endwith %}
+
+    {% with numerator=12 denominator=3 %}
+    <li>12 / 3 = {{ numerator|div:denominator }}</li>
+    {% endwith %}
+
+    <li>|-13| = {{ -13|abs }}</li>
+</ul>
+
+
+pagination.num_pages
+
+
+.vscode/settings.json에 있는
+ALLOWED_HOSTS의 값을 바꾸면 서버를 실행할 때 접속할 수 있는 주소를 설정할 수 있다.
+ALLOWED_HOSTS = ['192.168.0.68', '127.0.0.1', 'localhost']
 
 
 

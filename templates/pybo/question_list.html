@@ -1,39 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container my-3">
-
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr class="thead-dark">
-          <tr>번호</tr>
-          <tr>제목</tr>
-          <tr>작성일시</tr>
-        </tr>
-      </thead>
-      <tbody>
-        {% if question_list %}
-          {% for question in question_list %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>
-                <a href="{% url 'pybo:detail' question.id %}">
-                  {{ question.subject }}</a>
-              </td>
-              <td>{{ question.create_date }}</td>
-            </tr>
-          {% endfor %}
-        {% else %}
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr class="thead-dark">
+        <tr>번호</tr>
+        <tr>제목</tr>
+        <tr>작성일시</tr>
+      </tr>
+    </thead>
+    <tbody>
+      {% if question_list %}
+        {% for question in question_list %}
           <tr>
-            <td colspan="3">질문이 없습니다.</td>
+            <td>{{ question.id }}</td>
+            <td>
+              <a href="{% url 'pybo:detail' question.id %}">
+                {{ question.subject }}</a>
+            </td>
+            <td>{{ question.create_date }}</td>
           </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-      <a href="{% url 'pybo:question_create' %}" class="btn btn-primary mr-2">
-        <i class="fa-regular fa-paper-plane"></i>
-        질문 등록하기
-      </a>
-      {% comment %} <a href="{% url 'pybo:question_create' %}" class="btn btn-primary"></a> {% endcomment %}
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="3">질문이 없습니다.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  {% include 'pybo/pagination.html' %}
+
+  <a href="{% url 'pybo:question_create' %}" class="btn btn-primary mr-2">
+    <i class="fa-regular fa-paper-plane"></i>
+    질문 등록하기
+  </a>
 {% endblock content %}

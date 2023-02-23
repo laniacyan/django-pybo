@@ -17,7 +17,7 @@
     "unibeautify.enabled": true,
     "[django-html]": {
       "editor.formatOnSave": true,
-      "editor.formatOnPaste": true,
+      "editor.formatOnPaste": false,
       "editor.defaultFormatter": "Glavin001.unibeautify-vscode" // 제거하면 잘 된다고들 한다. 난 있어도 괜찮은 듯 하다.
     }
     "prettier.tabWidth": 4,
