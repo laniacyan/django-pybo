@@ -926,14 +926,32 @@ path('question/delete/<int:question_id>/', views.question_delete, name='question
 ==> views.question_delete       question_id = 10
 
 
+form.as_p  를 사용하지 않는 이유는 부트스트랩을 이용해 디자인을 바꾸기 위해서.
 
 
 
 
 
 
+answer_form.html
+    {% extends 'base.html' %}
+    {% load bootstrap4 %}
+
+    {% block context %}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+
+        {% bootstrap_form form %}
+
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+
+    {% endblock context %}
 
 
+
+
+gitignore.io
 
 
 
