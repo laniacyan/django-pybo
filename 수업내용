@@ -954,9 +954,14 @@ answer_form.html
 gitignore.io
 
 
+브랜치 병합 작업은 gui보다는 직접 하는것이 좋다.
+git checkout main
 
+git stash
 
+git merge auth
 
+git push --tags
 
 
 
