@@ -13,281 +13,281 @@ python manage.py runserver
 
 
 
+화요일-----------------------------------------
+    MTV 패턴
+    Model Templit View
 
-MTV 패턴
-Model Templit View
+    MVC 패턴
+    Model View Controler?
 
-MVC 패턴
-Model View Controler?
+    역할이 나눠져 있다.
 
-역할이 나눠져 있다.
+    이제 디자인을 살펴보기로 한다.
 
-이제 디자인을 살펴보기로 한다.
+    이제까지는 기능에만 신경썼다.
 
-이제까지는 기능에만 신경썼다.
+    영 시원찮은 모양을 고치기 위해 디자인 작업을 해 그나마 조금 보기 좋게 만들자.
 
-영 시원찮은 모양을 고치기 위해 디자인 작업을 해 그나마 조금 보기 좋게 만들자.
+    그것을 위해 스태틱 처리를 해 줘야 한다.
+    static
 
-그것을 위해 스태틱 처리를 해 줘야 한다.
-static
+    잠깐 소개한 적이 있다. dynamic page, static page
+    그때그때마다 내용이 달라지면 dynamic page.
+    내용이 변하지 않으면 static page.
 
-잠깐 소개한 적이 있다. dynamic page, static page
-그때그때마다 내용이 달라지면 dynamic page.
-내용이 변하지 않으면 static page.
+    페이지만이 아닌 웹이 제공해주는 파일 중에서도 static 성질을 가진 것이 있다.
 
-페이지만이 아닌 웹이 제공해주는 파일 중에서도 static 성질을 가진 것이 있다.
+    대표적인게 이미지 파일들. 이미지 파일을 요청하면 그대로 항상 그 이미지를 보여주죠.
 
-대표적인게 이미지 파일들. 이미지 파일을 요청하면 그대로 항상 그 이미지를 보여주죠.
+    그다음에 css파일. 요것도 동적으로 내용이 바뀌는 것이 아니다.
+    js. 이런것들을 다 static 파일. 정적인 파일이라 부른다.
 
-그다음에 css파일. 요것도 동적으로 내용이 바뀌는 것이 아니다.
-js. 이런것들을 다 static 파일. 정적인 파일이라 부른다.
+    그래서 이 파일들을 누가 관리하느냐.
+    어제 본 web server가 있고 web application 서버가 있다.
+    web server는 Apache, web application은 Django가 있다.
+    urls.py로 등록된 요청이 들어오면 요청이 장고로 전달된다.
+    그런데 urls.py에 들어있지 않은 녀석은 전부 static파일로 간주한다.
 
-그래서 이 파일들을 누가 관리하느냐.
-어제 본 web server가 있고 web application 서버가 있다.
-web server는 Apache, web application은 Django가 있다.
-urls.py로 등록된 요청이 들어오면 요청이 장고로 전달된다.
-그런데 urls.py에 들어있지 않은 녀석은 전부 static파일로 간주한다.
+    그 녀석은 장고가 담당하지 않는다. 대신 아파치가 담당한다.
 
-그 녀석은 장고가 담당하지 않는다. 대신 아파치가 담당한다.
+    static파일은 아파치같은 웹서버가 담당을 한다.
+    현재 우리가 사용하는건 장고에 내장된 웹서버다.
+    그래서 장고가 처리해 주는 것 처럼 보일 뿐이다.
 
-static파일은 아파치같은 웹서버가 담당을 한다.
-현재 우리가 사용하는건 장고에 내장된 웹서버다.
-그래서 장고가 처리해 주는 것 처럼 보일 뿐이다.
 
+    config의 settings.py를 보러가죠.
 
-config의 settings.py를 보러가죠.
+    맨 아래를 보면 STATIC_URL = "static/"게 있다.
+    STATIC_URL = "static/" 이 url로 시작하면 
+    #   static/images/a.jpg, static/css/main.css
 
-맨 아래를 보면 STATIC_URL = "static/"게 있다.
-STATIC_URL = "static/" 이 url로 시작하면 
-#   static/images/a.jpg, static/css/main.css
+    이와같은 형식으로 정보가 들어오면 static파일로 간주한다?
 
-이와같은 형식으로 정보가 들어오면 static파일로 간주한다?
+    그럼 static파일은 어디에 배치가 되는가?
+    이 정보는 현재 빠져있다.
 
-그럼 static파일은 어디에 배치가 되는가?
-이 정보는 현재 빠져있다.
+    실제 스태틱파일이 어디에 있는가 경로를 나타낸다.
 
-실제 스태틱파일이 어디에 있는가 경로를 나타낸다.
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+    우리가 오전에 탬플릿 지정했던 방식. 그것과 같은 역할이다.
 
-우리가 오전에 탬플릿 지정했던 방식. 그것과 같은 역할이다.
 
+    루트 레벨에서 static이라는 폴더를 하나 만든다.
 
-루트 레벨에서 static이라는 폴더를 하나 만든다.
+    우리가 위에서 지정한 'static'과 동일하게 하는 것이다.
 
-우리가 위에서 지정한 'static'과 동일하게 하는 것이다.
+    루트레벨/'static 폴더'
 
-루트레벨/'static 폴더'
+    방금 만든 static폴더에 스타일시트를 하나 만들자.
 
-방금 만든 static폴더에 스타일시트를 하나 만들자.
+    외부 스타일 파일 style.css를 만든다.
 
-외부 스타일 파일 style.css를 만든다.
+    오랜만에 css가 등장하니까 복습을 해봐야겠죠?
 
-오랜만에 css가 등장하니까 복습을 해봐야겠죠?
+    이 파트를 지칭할때 쓰는 용어가 뭔가요?
 
-이 파트를 지칭할때 쓰는 용어가 뭔가요?
+    textarea {
+        width:100%;
+    }
+    textarea를 선택자라고 부른다.
 
-textarea {
-    width:100%;
-}
-textarea를 선택자라고 부른다.
+    이 스타일이 누구에게 적용되느냐를 표현해주는 것이다.
 
-이 스타일이 누구에게 적용되느냐를 표현해주는 것이다.
+    선택자 {
+        속성:값;
+    }
 
-선택자 {
-    속성:값;
-}
+    선택자를 기술하는 방법도 아주 많다.
 
-선택자를 기술하는 방법도 아주 많다.
+    * {
+        내용
+    }
+    여기서 애스터리스크는 전체선택자라고 부른다.
 
-* {
-    내용
-}
-여기서 애스터리스크는 전체선택자라고 부른다.
+    디폴트값을 줄 때 주로 사용하는 선택자다.
 
-디폴트값을 줄 때 주로 사용하는 선택자다.
+    input[type=submit] {
+        margin-top:10px;
+    }
 
-input[type=submit] {
-    margin-top:10px;
-}
+    input[type=submit] 은 태그 선택자다.
+    태그로 지정해서 선택하는 것이다.
 
-input[type=submit] 은 태그 선택자다.
-태그로 지정해서 선택하는 것이다.
+    .xxx 는 클래스 선택자다.
+    #xxx 는 id 선택자다.
 
-.xxx 는 클래스 선택자다.
-#xxx 는 id 선택자다.
+    디테일 페이지에서 텍스트 에어리어를 쓰고 있죠?
+    답변을 입력받기 위해서.
+    걔에 대해서 스타일을 바꾸겠다는 의미입니다.
 
-디테일 페이지에서 텍스트 에어리어를 쓰고 있죠?
-답변을 입력받기 위해서.
-걔에 대해서 스타일을 바꾸겠다는 의미입니다.
+    textarea {
+        width:100%; 비율로 표시하는것은 상대값이다. 절대값은 200px같이 표시하는 것을 의미한다.
+    }
+    상대값이 적용되는 구간은 부모 태그의 크기이다.
+    부모 태그의 크기에 따라 바뀐다.
 
-textarea {
-    width:100%; 비율로 표시하는것은 상대값이다. 절대값은 200px같이 표시하는 것을 의미한다.
-}
-상대값이 적용되는 구간은 부모 태그의 크기이다.
-부모 태그의 크기에 따라 바뀐다.
+    input[type=submit] {
+        margin-top:10px;
+    }
+    앞에 아무것도 없으니 이것은 태그 선택자다.
+    <input> 을 말하는 것이다.
 
-input[type=submit] {
-    margin-top:10px;
-}
-앞에 아무것도 없으니 이것은 태그 선택자다.
-<input> 을 말하는 것이다.
 
+    margin: 10 20 30 40 을 주었다.
+    이것은 어디를 말하는 것일까?
+    상 우 하 좌
 
-margin: 10 20 30 40 을 주었다.
-이것은 어디를 말하는 것일까?
-상 우 하 좌
+    항상 위쪽이 기준이다.
+    위쪽을 기준으로 해서 시계방향으로 지정한다.
+    top rigth bottom left       trbl
 
-항상 위쪽이 기준이다.
-위쪽을 기준으로 해서 시계방향으로 지정한다.
-top rigth bottom left       trbl
+    하나만 지정하면 개별적으로 지정할 수도 있다.
 
-하나만 지정하면 개별적으로 지정할 수도 있다.
 
 
+    자 그러면 이 외부스타일 시트를 연결해야겠죠
 
-자 그러면 이 외부스타일 시트를 연결해야겠죠
+    연결할때 쓰는 태그 <link>.
 
-연결할때 쓰는 태그 <link>.
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"
 
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"
+    여기서도 우리는 이렇게 쓸 수 있다.
+    = "/static/style.css"
+    하지만 이렇게 하면 우리가 개발할 때는 이곳이 맞는데
+    실제로 사용할 때는 다를 수 있다.
 
-여기서도 우리는 이렇게 쓸 수 있다.
-= "/static/style.css"
-하지만 이렇게 하면 우리가 개발할 때는 이곳이 맞는데
-실제로 사용할 때는 다를 수 있다.
+    이 값은 정책에 의해 바뀔 수 있다.
+    만약 바뀌면 그 경로를 사용한 곳을 다 찾아내서 알맞게 바꿔줘야 한다.
 
-이 값은 정책에 의해 바뀔 수 있다.
-만약 바뀌면 그 경로를 사용한 곳을 다 찾아내서 알맞게 바꿔줘야 한다.
+    url을 쓸때 하드코딩을 하면 안되는 이유와 똑같다.
+    {% url %}을 써야 하는 이유다.
 
-url을 쓸때 하드코딩을 하면 안되는 이유와 똑같다.
-{% url %}을 써야 하는 이유다.
+    설정에서 읽어와 /static/ 부분을 담당하도록 해야 한다.
 
-설정에서 읽어와 /static/ 부분을 담당하도록 해야 한다.
+    {% load static %}
+    을 써 준 다음 static을 사용해야 한다.
 
-{% load static %}
-을 써 준 다음 static을 사용해야 한다.
+    static은 정적파일 경로를 만들때 사용하고
+    url은 동적파일 경로를 만들때 사용한다.
 
-static은 정적파일 경로를 만들때 사용하고
-url은 동적파일 경로를 만들때 사용한다.
 
+    한번 50%로 줄여볼까요? 텍스트 에어리어를?
 
-한번 50%로 줄여볼까요? 텍스트 에어리어를?
+    그리고 새로고침
 
-그리고 새로고침
+    -반으로 줄어들었다.
 
--반으로 줄어들었다.
+    줄어드나요?
 
-줄어드나요?
 
+    스태틱 파일은 가끔가다가 수정을 해도 적용이 안되는 현상이 일어날 수 있습니다.
 
-스태틱 파일은 가끔가다가 수정을 해도 적용이 안되는 현상이 일어날 수 있습니다.
+    지금은 안그러고 있는데 안바뀔 수도 있어요.
 
-지금은 안그러고 있는데 안바뀔 수도 있어요.
 
+    우선 이제까지 한 내용을 전부 커밋합시다.
 
-우선 이제까지 한 내용을 전부 커밋합시다.
 
+    여러분들 깃허브로부터 메일을 하나 받으셨을 거에요.
 
-여러분들 깃허브로부터 메일을 하나 받으셨을 거에요.
+    여러분의 장고 시크릿 키가 노출됐다. 위험하다! 라는 의미?
 
-여러분의 장고 시크릿 키가 노출됐다. 위험하다! 라는 의미?
 
+    세팅에 있는 
+    SECRET_KEY = "django-insecure-_cs=4282$b2_2wp4*1-@2f8yiqpwizkp2gktg)tr62w84#3g7#"
+    이것은 시크릿 키다.
+    이것이 있으면 csrf 토큰을 만들 수 있다.
 
-세팅에 있는 
-SECRET_KEY = "django-insecure-_cs=4282$b2_2wp4*1-@2f8yiqpwizkp2gktg)tr62w84#3g7#"
-이것은 시크릿 키다.
-이것이 있으면 csrf 토큰을 만들 수 있다.
+    부트스트랩
 
-부트스트랩
+    min 파일은 탭, 공백, 개행문자 등으로 보기좋게 정리된 대신 크기가 늘어난 파일을
+    탭, 공백, 개행문자를 전부 지워 한줄로 만든 것이다.
 
-min 파일은 탭, 공백, 개행문자 등으로 보기좋게 정리된 대신 크기가 늘어난 파일을
-탭, 공백, 개행문자를 전부 지워 한줄로 만든 것이다.
 
+    부트스트랩을 이용해서 표 형태로 만들자.
 
-부트스트랩을 이용해서 표 형태로 만들자.
 
 
+    적용이 됐는지 알 수 있는 방법이 없다.
 
-적용이 됐는지 알 수 있는 방법이 없다.
+    혹시 개발자 모드를 써 봤냐
 
-혹시 개발자 모드를 써 봤냐
+    안써봐싿
 
-안써봐싿
+    브라우저마다 개발자에게 좀 더 많은 기능을 주는 모드가 있다.
 
-브라우저마다 개발자에게 좀 더 많은 기능을 주는 모드가 있다.
+    우리가 개발할 때 굉장히 많은 정보를 얻을 수 있습니다.
 
-우리가 개발할 때 굉장히 많은 정보를 얻을 수 있습니다.
+    그래서 개발할때 일반적으로 항상 켜 놔요.
 
-그래서 개발할때 일반적으로 항상 켜 놔요.
+    HTML의 구조가 어떻게 되어 있는가
+    트리 형태로 확인할 수 있고요
 
-HTML의 구조가 어떻게 되어 있는가
-트리 형태로 확인할 수 있고요
+    밑에 보면 각 아이템마다 스타일이 어떻게 적용되어 있는지 확인할 수 있고요
 
-밑에 보면 각 아이템마다 스타일이 어떻게 적용되어 있는지 확인할 수 있고요
+    여백이 얼만지 사이즈가 얼만지 구체적으로 확인할 수 있습니다.
 
-여백이 얼만지 사이즈가 얼만지 구체적으로 확인할 수 있습니다.
 
+    우리는 css파일이 제대로 포함되었는지 확인하고 싶은거에요.
 
-우리는 css파일이 제대로 포함되었는지 확인하고 싶은거에요.
+    빨간 마크가 보이죠? 에러가 2개 있다는 의미입니다.
 
-빨간 마크가 보이죠? 에러가 2개 있다는 의미입니다.
+    콘솔 탭이 있어요.
 
-콘솔 탭이 있어요.
+    위에 보면 엘리먼트 탭, 콘솔 탭, 있는데
 
-위에 보면 엘리먼트 탭, 콘솔 탭, 있는데
+    콘솔로 들어가 봅니다.
 
-콘솔로 들어가 봅니다.
+    404에러가 났다.
 
-404에러가 났다.
+    css파일의 경로가 잘못되었다 이소리죠.
 
-css파일의 경로가 잘못되었다 이소리죠.
+    그럼 내가 이걸보고 아 내가 경로를 잘못 적었구나 확인할 수 있는거에요.
+    보니까 오타가 있었네요.
 
-그럼 내가 이걸보고 아 내가 경로를 잘못 적었구나 확인할 수 있는거에요.
-보니까 오타가 있었네요.
+    일부러 냈던 오타를 지우고 새로고침 하면 사라졌죠?
 
-일부러 냈던 오타를 지우고 새로고침 하면 사라졌죠?
+    보니까 또 뭔가 에러가 있는데 이건 빨간색이 아닌 노란색으로 나오죠?
 
-보니까 또 뭔가 에러가 있는데 이건 빨간색이 아닌 노란색으로 나오죠?
+    map파일이 필요하다.
+    min파일은 한 줄로 요약됐기 때문에 원본에 어느 라인에 에러가 났는지 확인할 수가 없다.
+    그 위치를 파악하게 해주는 것이 map파일이다.
 
-map파일이 필요하다.
-min파일은 한 줄로 요약됐기 때문에 원본에 어느 라인에 에러가 났는지 확인할 수가 없다.
-그 위치를 파악하게 해주는 것이 map파일이다.
+    이 css파일은 검증된 파일이니 맵 파일이 없어도 문제없이 동작한다.
 
-이 css파일은 검증된 파일이니 맵 파일이 없어도 문제없이 동작한다.
 
+    링크의 스타일이 달라졌죠? 밑줄도 달라졌고.
 
-링크의 스타일이 달라졌죠? 밑줄도 달라졌고.
+    부트 스트랩에서 정의하고 있는 디폴트 스타일이 적용된 것이다.
 
-부트 스트랩에서 정의하고 있는 디폴트 스타일이 적용된 것이다.
 
+    그럼 이제 부트스트랩 스타일이 준비가 됐고요
+    자 그러면 먼저 첫번째
+    div태그를 먼저 보도록 하겠습니다.
 
-그럼 이제 부트스트랩 스타일이 준비가 됐고요
-자 그러면 먼저 첫번째
-div태그를 먼저 보도록 하겠습니다.
+    div태그로 감쌀건데요
 
-div태그로 감쌀건데요
+    클래스로 배정하고 있습니다.
 
-클래스로 배정하고 있습니다.
 
 
+    그리고 여기서 정의하는 class는 전부 다 위에서 정의하고 있는 class에요.
 
-그리고 여기서 정의하는 class는 전부 다 위에서 정의하고 있는 class에요.
 
 
+    바깥에 있는 주황색 부분이 마진.
+    연두색 부분이 패딩.
+    안에 있는 옅은 파란색이 ?
 
-바깥에 있는 주황색 부분이 마진.
-연두색 부분이 패딩.
-안에 있는 옅은 파란색이 ?
+    보고 싶은 요소에 커서를 대면 다 보인다.
 
-보고 싶은 요소에 커서를 대면 다 보인다.
+    container 클래스가 중앙에 위치하게 해준 친구다.
 
-container 클래스가 중앙에 위치하게 해준 친구다.
-
-my-3의 m은 마진의 약자. y축으로 주겠다. -3 크기를 말한다. 1~5 사이에서 선택할 수 있다. 3이 기본 크기다.
-줄일수록 작아지고 늘릴수록 커진다.
+    my-3의 m은 마진의 약자. y축으로 주겠다. -3 크기를 말한다. 1~5 사이에서 선택할 수 있다. 3이 기본 크기다.
+    줄일수록 작아지고 늘릴수록 커진다.
 
 
 
@@ -296,165 +296,165 @@ my-3의 m은 마진의 약자. y축으로 주겠다. -3 크기를 말한다. 1~5
 
 
 수요일-----------------------------------------
-conda activate iot를 입력해 iot 가상환경을 준비한다.
+    conda activate iot를 입력해 iot 가상환경을 준비한다.
 
-python manage.py runserver를 입력해 서버를 실행한다.
+    python manage.py runserver를 입력해 서버를 실행한다.
 
 
 
-Spacing
-Bootstrap 4 has a wide range of responsive margin and padding utility classes. They work for all breakpoints: xs (<=576px), sm (>=576px), md (>=768px), lg (>=992px) or xl (>=1200px)):
+    Spacing
+    Bootstrap 4 has a wide range of responsive margin and padding utility classes. They work for all breakpoints: xs (<=576px), sm (>=576px), md (>=768px), lg (>=992px) or xl (>=1200px)):
 
-The classes are used in the format: {property}{sides}-{size} for xs and {property}{sides}-{breakpoint}-{size} for sm, md, lg, and xl.
+    The classes are used in the format: {property}{sides}-{size} for xs and {property}{sides}-{breakpoint}-{size} for sm, md, lg, and xl.
 
-Where property is one of:
+    Where property is one of:
 
-m - sets margin
-p - sets padding
-Where sides is one of:
+    m - sets margin
+    p - sets padding
+    Where sides is one of:
 
-t - sets margin-top or padding-top
-b - sets margin-bottom or padding-bottom
-l - sets margin-left or padding-left
-r - sets margin-right or padding-right
-x - sets both padding-left and padding-right or margin-left and margin-right
-y - sets both padding-top and padding-bottom or margin-top and margin-bottom
-blank - sets a margin or padding on all 4 sides of the element
-Where size is one of:
+    t - sets margin-top or padding-top
+    b - sets margin-bottom or padding-bottom
+    l - sets margin-left or padding-left
+    r - sets margin-right or padding-right
+    x - sets both padding-left and padding-right or margin-left and margin-right
+    y - sets both padding-top and padding-bottom or margin-top and margin-bottom
+    blank - sets a margin or padding on all 4 sides of the element
+    Where size is one of:
 
-0 - sets margin or padding to 0
-1 - sets margin or padding to .25rem (4px if font-size is 16px)
-2 - sets margin or padding to .5rem (8px if font-size is 16px)
-3 - sets margin or padding to 1rem (16px if font-size is 16px)
-4 - sets margin or padding to 1.5rem (24px if font-size is 16px)
-5 - sets margin or padding to 3rem (48px if font-size is 16px)
-auto - sets margin to auto
-Note: margins can also be negative, by adding an "n" in front of size:
+    0 - sets margin or padding to 0
+    1 - sets margin or padding to .25rem (4px if font-size is 16px)
+    2 - sets margin or padding to .5rem (8px if font-size is 16px)
+    3 - sets margin or padding to 1rem (16px if font-size is 16px)
+    4 - sets margin or padding to 1.5rem (24px if font-size is 16px)
+    5 - sets margin or padding to 3rem (48px if font-size is 16px)
+    auto - sets margin to auto
+    Note: margins can also be negative, by adding an "n" in front of size:
 
-n1 - sets margin to -.25rem (-4px if font-size is 16px)
-n2 - sets margin to -.5rem (-8px if font-size is 16px)
-n3 - sets margin to -1rem (-16px if font-size is 16px)
-n4 - sets margin to -1.5rem (-24px if font-size is 16px)
-n5 - sets margin to -3rem (-48px if font-size is 16px)
+    n1 - sets margin to -.25rem (-4px if font-size is 16px)
+    n2 - sets margin to -.5rem (-8px if font-size is 16px)
+    n3 - sets margin to -1rem (-16px if font-size is 16px)
+    n4 - sets margin to -1.5rem (-24px if font-size is 16px)
+    n5 - sets margin to -3rem (-48px if font-size is 16px)
 
 
-카드 만들기.
+    카드 만들기.
 
-유튜브의 화면이 대부분 카드로 이루어진 것이다.
+    유튜브의 화면이 대부분 카드로 이루어진 것이다.
 
 
 
-pre태그를 사용하면 있는 그대로 콘텐츠가 보인다.
+    pre태그를 사용하면 있는 그대로 콘텐츠가 보인다.
 
-white-space
-공백, 탭, 엔터 등을 나타내는 말.
+    white-space
+    공백, 탭, 엔터 등을 나타내는 말.
 
-style="white-space: pre-line;"
-pre-line은 엔터만 pre태그처럼 해라.
+    style="white-space: pre-line;"
+    pre-line은 엔터만 pre태그처럼 해라.
 
-1줄에 담지 않아서 \n이 들어가 있을수도 있다.
+    1줄에 담지 않아서 \n이 들어가 있을수도 있다.
 
 
 
-flex는 css의 함수? 로서 x축과 y축 둘 다 조절할 수 있다.
+    flex는 css의 함수? 로서 x축과 y축 둘 다 조절할 수 있다.
 
 
 
-페이지 내에 각각의 블럭이 있다.
-타이틀 블럭, 메뉴 블럭, 사이드 블럭, 푸터 블럭
+    페이지 내에 각각의 블럭이 있다.
+    타이틀 블럭, 메뉴 블럭, 사이드 블럭, 푸터 블럭
 
-블럭을 통해 원하는 부분을 고를 수 있다.
+    블럭을 통해 원하는 부분을 고를 수 있다.
 
 
-icon 찾기
-fontawesome을 쳐서 들어가면 아이콘이 많다.
+    icon 찾기
+    fontawesome을 쳐서 들어가면 아이콘이 많다.
 
-fontawesome cdn을 붙여 검색하면 뭔가 된다?
+    fontawesome cdn을 붙여 검색하면 뭔가 된다?
 
 
 
-git을 효율적으로 관리하게 해주는 git graph를 깔았다.
+    git을 효율적으로 관리하게 해주는 git graph를 깔았다.
 
-어째서인지 git graph에서 태그가 push가 안됐다.
+    어째서인지 git graph에서 태그가 push가 안됐다.
 
-직접 명령어로 git push --tags 를 하니 push됐다.
+    직접 명령어로 git push --tags 를 하니 push됐다.
 
 
 
 
-질문 등록을 추가해보자.
-목록에 보이는 태그 아래쪽에 질문 등록하기 버튼을 만들 것이다.
+    질문 등록을 추가해보자.
+    목록에 보이는 태그 아래쪽에 질문 등록하기 버튼을 만들 것이다.
 
 
-QuestionForm이 무엇인가.
-파스칼 표기법으로 적혀있으니 클래스 이름이다.
+    QuestionForm이 무엇인가.
+    파스칼 표기법으로 적혀있으니 클래스 이름이다.
 
-생성자가 호출된다.
+    생성자가 호출된다.
 
 
 
 
-"meta" data
-메타라는 것은 실제 데이터가 아닌 
-실제 데이터를 설명하는 데이터다.
+    "meta" data
+    메타라는 것은 실제 데이터가 아닌 
+    실제 데이터를 설명하는 데이터다.
 
-예를 들어 텍스트 파일이 있으면 파일 자체의 내용은 열면 나오지만
-파일의 크기, 유형, 위치 등이 따로 있다. 이런것을 메타 데이터라 한다.
+    예를 들어 텍스트 파일이 있으면 파일 자체의 내용은 열면 나오지만
+    파일의 크기, 유형, 위치 등이 따로 있다. 이런것을 메타 데이터라 한다.
 
 
-{{ form.as_p }}
-{{ form.as_div }}
-{{ form.as_table }}
+    {{ form.as_p }}
+    {{ form.as_div }}
+    {{ form.as_table }}
 
-등 다양한 방법으로 묶을 수 있다.
+    등 다양한 방법으로 묶을 수 있다.
 
 
-액션 action=" "
-액션 속성의 역할 : submit을 눌렀을 때 데이터를 보낼 url.
-생략을 했을 경우 현재 url.
+    액션 action=" "
+    액션 속성의 역할 : submit을 눌렀을 때 데이터를 보낼 url.
+    생략을 했을 경우 현재 url.
 
 
-주소창에 직접 입력하는 것은 get으로 요청하는 것이다.
+    주소창에 직접 입력하는 것은 get으로 요청하는 것이다.
 
-post요청은 form의 submit을 통해서면 할 수 있다?
+    post요청은 form의 submit을 통해서면 할 수 있다?
 
 
 
-한 개의 케이스가 여러 처리(get, post 둘 다 처리)를 한꺼번에 할 경우
-예외 처리를 해주어야 한다.
-if request.method == 'POST':    # submit을 통한 POST 요청
-    pass
-else:                           # GET 요청
-    form = QuestionForm()
+    한 개의 케이스가 여러 처리(get, post 둘 다 처리)를 한꺼번에 할 경우
+    예외 처리를 해주어야 한다.
+    if request.method == 'POST':    # submit을 통한 POST 요청
+        pass
+    else:                           # GET 요청
+        form = QuestionForm()
 
 
-redirect를 해야 하는 이유는
-사용자가 실수로 새로고침을 눌렀을 시 또 등록될 수 있기에 그것을 방지하기 위함이다.
+    redirect를 해야 하는 이유는
+    사용자가 실수로 새로고침을 눌렀을 시 또 등록될 수 있기에 그것을 방지하기 위함이다.
 
-return redirect('pybo:index') => 목록보기로 이동
+    return redirect('pybo:index') => 목록보기로 이동
 
 
 
-폼 클래스에서 하는 방법
+    폼 클래스에서 하는 방법
 
-템플릿에서 하는 방법
+    템플릿에서 하는 방법
 
 
-입력을 받는 요소 하나를 위젯이라 부른다.
+    입력을 받는 요소 하나를 위젯이라 부른다.
 
 
 
-텍스트 에리어를 추상화.
-폼 컨트롤
-로스는 10.
-10줄
+    텍스트 에리어를 추상화.
+    폼 컨트롤
+    로스는 10.
+    10줄
 
-각각의 라벨을 바꿀 수 있다.
+    각각의 라벨을 바꿀 수 있다.
 
-이미 models.py에서 작업을 했기에 할 필요 없다.
+    이미 models.py에서 작업을 했기에 할 필요 없다.
 
 
-제일 처음 질문 등록하기로 들어오면 기본 내용은 None이다.
+    제일 처음 질문 등록하기로 들어오면 기본 내용은 None이다.
 
 
 
@@ -467,211 +467,456 @@ return redirect('pybo:index') => 목록보기로 이동
 목요일-----------------------------------------
 
 
-form을 사용하는 이유에 대해 알아보았다.
+    form을 사용하는 이유에 대해 알아보았다.
 
-form을 사용하면 예외 처리(오류시 처리)가 매우 편해진다.
-form을 사용하지 않으면 요청별로 예외처리를 일일히 다 해야해서 매우 힘들어진다.
-(처리를 위해 get으로 받아와야 한다.)
+    form을 사용하면 예외 처리(오류시 처리)가 매우 편해진다.
+    form을 사용하지 않으면 요청별로 예외처리를 일일히 다 해야해서 매우 힘들어진다.
+    (처리를 위해 get으로 받아와야 한다.)
 
-vsc 설정을 바꾸기 위해 다시 설치했다.
-맨 처음 시작할때 아래 있는 4개의 상자 중 체크 안되어있는 상단 2개 상자를 체크하고 설치했다.
-
-
-네비게이션 기능을 추가할 것이다.
+    vsc 설정을 바꾸기 위해 다시 설치했다.
+    맨 처음 시작할때 아래 있는 4개의 상자 중 체크 안되어있는 상단 2개 상자를 체크하고 설치했다.
 
 
-<nav class="navbar navbar-expand-sm bg-light">
-
-navbar이다, sm보다 작아지면 햄버거 메뉴가 되고, 그보다 크면 펼쳐라. 배경색은 light.
-
-nav bar는 ul - li로 구성한다.
+    네비게이션 기능을 추가할 것이다.
 
 
+    <nav class="navbar navbar-expand-sm bg-light">
+
+    navbar이다, sm보다 작아지면 햄버거 메뉴가 되고, 그보다 크면 펼쳐라. 배경색은 light.
+
+    nav bar는 ul - li로 구성한다.
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <a class="navbar-brand" href="{% url 'pybo:index' %}">Pybo</a>
-    <button class="navbar-toggler ml-auto" type="button" 
-        data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" 
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <a class="navbar-brand" href="{% url 'pybo:index' %}">Pybo</a>
+        <button class="navbar-toggler ml-auto" type="button" 
+            data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">로그인</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    햄버거 버튼을 구성하는 코드다.
+
+    ml-auto
+    버튼을 항상 오른쪽 끝으로 오게 한다.
+
+    data-toggle="collapse" data-target="#navbarNav"
+
+    "#navbarNav" => #이 붙었으므로 id 선택
+    data-target => 타겟은 navbarNav 이다.
+
+    id="navbarNav" 를 접겠다.
+
     <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item ">
-                <a class="nav-link" href="#">로그인</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    이 영역을 접었다 폈다 할 수 있다.
 
-햄버거 버튼을 구성하는 코드다.
-
-ml-auto
-버튼을 항상 오른쪽 끝으로 오게 한다.
-
-data-toggle="collapse" data-target="#navbarNav"
-
-"#navbarNav" => #이 붙었으므로 id 선택
-data-target => 타겟은 navbarNav 이다.
-
-id="navbarNav" 를 접겠다.
-
-<div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-이 영역을 접었다 폈다 할 수 있다.
-
-<span class="navbar-toggler-icon"></span>
-햄버거 아이콘을 의미한다. 다른것으로 바꾸면 바뀐다.
+    <span class="navbar-toggler-icon"></span>
+    햄버거 아이콘을 의미한다. 다른것으로 바꾸면 바뀐다.
 
 
 
-<ul class="navbar-nav">                         => 메뉴 그룹
-    <li class="nav-item ">                      => 보통 이곳에서 수정이 많이 발생한다(li).
-        <a class="nav-link" href="#">로그인</a>
-    </li>
-</ul>
+    <ul class="navbar-nav">                         => 메뉴 그룹
+        <li class="nav-item ">                      => 보통 이곳에서 수정이 많이 발생한다(li).
+            <a class="nav-link" href="#">로그인</a>
+        </li>
+    </ul>
 
 
 
 
 
-include 적용하기
-{% include "navbar.html" %} => 템플릿에서 불러오는 기법
+    include 적용하기
+    {% include "navbar.html" %} => 템플릿에서 불러오는 기법
 
 
-페이지네이션
-목록 보기 페이지에서 페이지 단위로 출력
-localhost:8000/pybo/?page=1     get 형식.
-view 함수에서 request.GET.get('page')
-    보고 싶은 페이지를 page 쿼리 변수로 지정
-    생략시 디폴트 1 페이지
+    페이지네이션
+    목록 보기 페이지에서 페이지 단위로 출력
+    localhost:8000/pybo/?page=1     get 형식.
+    view 함수에서 request.GET.get('page')
+        보고 싶은 페이지를 page 쿼리 변수로 지정
+        생략시 디폴트 1 페이지
 
 
-subject = f'테스트 데이터입니다: [{i:03d}]',
-content = f'테스트 데이터의 내용입니다: [{i:03d}]',
+    subject = f'테스트 데이터입니다: [{i:03d}]',
+    content = f'테스트 데이터의 내용입니다: [{i:03d}]',
 
-[{i:03d}]
-i를 표기하되
+    [{i:03d}]
+    i를 표기하되
 
-0 => 빈자리는 0으로 채우고
-3 => 3자리가 되도록 하라.
-d => 10진수로 표기하고
-03d => 빈자리가 0으로 채워지는 10진수로 이루어진 3자리 숫자로 표기하라.
-5:03d => 005
-12:03d => 012
+    0 => 빈자리는 0으로 채우고
+    3 => 3자리가 되도록 하라.
+    d => 10진수로 표기하고
+    03d => 빈자리가 0으로 채워지는 10진수로 이루어진 3자리 숫자로 표기하라.
+    5:03d => 005
+    12:03d => 012
 
-python manage.py shell
-=> shell로 들어간다.
-
-
----
-from pybo.models import Question
-from django.utils import timezone
----
-for i in range(300):
-    q = Question(
-        subject = f'테스트 데이터입니다: [{i:03d}]',
-        content = f'테스트 데이터의 내용입니다: [{i:03d}]',
-        create_date = timezone.now()
-    )
-    q.save()
+    python manage.py shell
+    => shell로 들어간다.
 
 
----
-차례대로 입력하면 데이터베이스에 입력이 된다.
+    ---
+    from pybo.models import Question
+    from django.utils import timezone
+    ---
+    for i in range(300):
+        q = Question(
+            subject = f'테스트 데이터입니다: [{i:03d}]',
+            content = f'테스트 데이터의 내용입니다: [{i:03d}]',
+            create_date = timezone.now()
+        )
+        q.save()
 
-2번째는 어째서인지 1칸을 띄우라고 했다.
 
+    ---
+    차례대로 입력하면 데이터베이스에 입력이 된다.
 
-
-question_list.html에 아래와 같은 틀을 넣었다.
-
-<ul class="pagination">
-  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-  <li class="page-item"><a class="page-link" href="#">1</a></li>
-  <li class="page-item"><a class="page-link" href="#">2</a></li>
-  <li class="page-item"><a class="page-link" href="#">3</a></li>
-  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-</ul>
+    2번째는 어째서인지 1칸을 띄우라고 했다.
 
 
 
-</table>
-<!-- 페이징처리 시작 -->
-<ul class="pagination justify-content-center">
-    <!-- 이전페이지 -->
-    {% if question_list.has_previous %}             =>question_list == page 객체
-    <li class="page-item">
-        <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
-      </li>
-    {% else %}                                      => page = 1
-    <li class="page-item disabled">
-    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-    </li>
-    {% endif %}
+    question_list.html에 아래와 같은 틀을 넣었다.
 
-
-aria == 스크린 리더기
-aria-disabled == 스크린 리더기 기능을 비활성화 했다.
+    <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
 
 
 
-페이지 리스트를 만드는 식
-{% for page_number in question_list.paginator.page_range %}
-    {% if page_number == question_list.number %}
-    <li class="page-item active" aria-current="page">
-        <a class="page-link" href="#">{{ page_number }}</a>
-    </li>
-    {% else %}
-    <li class="page-item">
-        <a class="page-link" href="#">{{ page_number }}</a>
-    </li>
-    {% endif %}
-{% endfor %}
+    </table>
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if question_list.has_previous %}             =>question_list == page 객체
+        <li class="page-item">
+            <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
+        </li>
+        {% else %}                                      => page = 1
+        <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
 
 
-페이지 표시 제한 기능 구현하기
-| => 필터.
-
-필터 왼쪽에 있는 제시값이 함수의 매개변수로 전달된다.
-값|함수
-question_list.number|add:-5 and
-...
-
-필터 사용시에 공백이 들어가면 안된다.
-
-템플릿 태그는 반드시 1줄에 표현해야 한다.
-{% 이것이 템플릿 태그. %}
-
-{% load mathfilters %} 
+    aria == 스크린 리더기
+    aria-disabled == 스크린 리더기 기능을 비활성화 했다.
 
 
-<h1>Basic math filters</h1>
 
-<ul>
-    <li>8 + 3 = {{ 8|add:3 }}</li>
-
-    <li>13 - 17 = {{ 13|sub:17 }}</li>
-
-    {% with answer=42 %}
-    <li>42 * 0.5 = {{ answer|mul:0.5 }}</li>
-    {% endwith %}
-
-    {% with numerator=12 denominator=3 %}
-    <li>12 / 3 = {{ numerator|div:denominator }}</li>
-    {% endwith %}
-
-    <li>|-13| = {{ -13|abs }}</li>
-</ul>
+    페이지 리스트를 만드는 식
+    {% for page_number in question_list.paginator.page_range %}
+        {% if page_number == question_list.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="#">{{ page_number }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
 
 
-pagination.num_pages
+    페이지 표시 제한 기능 구현하기
+    | => 필터.
+
+    필터 왼쪽에 있는 제시값이 함수의 매개변수로 전달된다.
+    값|함수
+    question_list.number|add:-5 and
+    ...
+
+    필터 사용시에 공백이 들어가면 안된다.
+
+    템플릿 태그는 반드시 1줄에 표현해야 한다.
+    {% 이것이 템플릿 태그. %}
+
+    {% load mathfilters %} 
 
 
-.vscode/settings.json에 있는
-ALLOWED_HOSTS의 값을 바꾸면 서버를 실행할 때 접속할 수 있는 주소를 설정할 수 있다.
-ALLOWED_HOSTS = ['192.168.0.68', '127.0.0.1', 'localhost']
+    <h1>Basic math filters</h1>
+
+    <ul>
+        <li>8 + 3 = {{ 8|add:3 }}</li>
+
+        <li>13 - 17 = {{ 13|sub:17 }}</li>
+
+        {% with answer=42 %}
+        <li>42 * 0.5 = {{ answer|mul:0.5 }}</li>
+        {% endwith %}
+
+        {% with numerator=12 denominator=3 %}
+        <li>12 / 3 = {{ numerator|div:denominator }}</li>
+        {% endwith %}
+
+        <li>|-13| = {{ -13|abs }}</li>
+    </ul>
+
+
+    pagination.num_pages
+
+
+    .vscode/settings.json에 있는
+    ALLOWED_HOSTS의 값을 바꾸면 서버를 실행할 때 접속할 수 있는 주소를 설정할 수 있다.
+    ALLOWED_HOSTS = ['192.168.0.68', '127.0.0.1', 'localhost']
+
+
+
+
+    로그인 로그아웃 구현하기
+
+    각자 하는 일
+
+    로직 : django
+    인터페이스(화면구성), 템플릿 정의 : 우리
+
+    common이라는 앱을 새로 만든다.
+
+    django-admin startapp common
+    을 터미널에 입력해 새 앱을 만든다.
+
+
+
+    from django.contrib.auth import views as auth_views
+    ==> import 후 auth_views 라고 부르겠다.
+
+
+
+
+
+    templates/navbar.html
+        <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+        이 코드의 login이 아래 코드의 login과 연결된다.
+
+    common/urls.py  에 작성.
+        from django.urls import path
+        from django.contrib.auth import views as auth_views
+
+
+        app_name = 'common'
+
+        urlpatterns = [
+            path('login/', auth_views.LoginView.as_view(template_name='common/login.html'), name='login'),
+            # url은 common/login/ 이 된다.
+        ]
+
+    이제껏 view를 만들때 함수만들 써 왔다.
+
+    하지만 클래스로도 만들 수 있다.
+
+    LoginView 클래스가 로직을 담당한다.
+    as_view 함수를 통해 패스한다?
+
+    as_view가 사용할 템플릿은 common/login.html에 있다.
+    as_view는 common/login.html로 랜더링 한다.
+
+    LoginView 클래스가 처리해줘서
+    login.html에서 액션을 하지 않아도 된다.
+
+    <div style="width:500px" class="mx-auto">
+    mx-auto로 가운데로 오게 한다.
+    width:500px로 입력창의 크기를 조절한다.
+
+    <h2 class="mb-4">
+    아래쪽 마진을 4 준다.
+
+
+
+    거의 대부분의 경우
+    post 처리에 성공하면 redirect 한다.
+
+
+    config/setting.py에서
+    LOGIN_REDIRECT_URL = '/'        ==> / 로 이동한다.
+    로그인시 이동하는 url을 정할 수 있다.
+
+
+    config/urls.py
+    path('', views.index, name='index'),    # '/' 에 해당되는 path
+
+
+    randomuser.me/
+
+
+
+    캐시 문제로 변경사항이 반영이 안되는 경우가 있다.
+    개발자 모드로 들어가 소스와 캐시를 확인하자.
+
+    ml-auto
+    => 왼쪽 마진을 다 차지하라?
+
+
+
+금요일-----------------------------------------
+
+
+    회원가입 하는 법
+        아이디는 중복체크를 한다.
+        비밀번호1과 비밀번호2가 일치해야 한다. (비밀번호 확인)
+
+        암호화의 종류는 2가지다.
+            복원 가능한 암호화
+            복원 불가능한 암호화
+
+        비밀번호는 복원 불가능한 암호화 기법을 사용한다.
+
+        그러므로 비밀번호는 분실하면 복원을 할 수 없다.
+
+
+    모든 과정이 문제없이 되면 DB에 저장하고 회원가입이 완료된다.
+
+
+
+    일반적으로 사이트들은
+    누구나 볼 수는 있지만
+    조작, 생성은 로그인 사용자에게만 허용한다.
+    수정, 삭제는 작성자에게만 허용된다.
+
+
+
+    회원가입 정보관리
+        장고의 django.contrib.auth 앱에서 기본 제공.
+
+        회원가입시 우리는 어떤 정보를 수집할 것인가.
+        Form   => 입력받을 정보 폼의 예시.
+                어떤 정보를 받을지(어떤 폼을 만들지)는 개발자가 정해야 한다.
+            username
+            password
+            email
+            name....
+        
+
+    [또는 계정을 만드세요.] 만들기 작업.
+
+
+
+    박스가 어디로 갈 것인지는 flex 로 정한다.
+    text-right  => 박스 내에 들어오는 글자가 어느 위치에 올것인지를 결정한다.(이 경우는 우측)
+
+
+
+    setting.py에서 회원가입 규칙을 바꿀 수 있다.
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        },
+        {
+            "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        },
+    ]
+
+
+    views.py
+        form.cleaned_data.get('username')  => dict, 유혀성 검사 통과한 데이터
+
+        authenticate라는 함수가 아이디와 비밀번호가 맞는지 확인하는 역할이다.
+
+    
+
+    
+    style="width:500px" 로 고정하면 사이트가 500 이하로 줄어들지 않는다.
+    이러면 불편하니 500px 이상일때는 500으로 고정되고
+    더 작아질 수도 있도록 하자.
+
+
+
+    mobile first
+    디폴트로 잡히는건 모바일이 먼저다?
+
+
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    필드 작성시 null=True를 넣으면 널이 허용된다.
+
+
+
+
+    @login_required(login_url='common:login')
+
+    http://127.0.0.1:8000/common/login/?next=/pybo/question/create/
+    => 로그인 이후 ?next=
+    이곳으로 이동해라. /pybo/question/create/
+    http://127.0.0.1:8000/common/login/
+
+    <td>{{ question.create_date|date:'Y-m-d H:i' }}</td> 소문자 h는 12시간제. 대문자는 24시간제.
+    년(Y)  월(m)  일(d)  시(h, H)  분(i)  초(s)
+
+    
+
+    modify_date = models.DateTimeField(null=True, blank=True)
+
+    blank=True
+        form.is_valid()를 통한 입력 폼 데이터 검사 시 값이 없어도 된다는 의미.
+        null=True, blank=True는 어떤 조건으로든 값을 비워둘 수 있음을 의미.
+
+
+
+    404에러 => 페이지 없음
+    401에러 => 로그인x
+    403에러 => 권한 없음
+    405에러 => 메서드 에러
+
+    <script>
+    $(document).ready(function(){
+        console.log('로딩 완료');
+    });
+    </script>
+
+    도큐먼트를 관리하는 j쿼리 객체를 만들어라.
+    도큐먼트 = 브라우저 자체를 말한다.
+    준비가 다 되었으면(ready) 이 함수를(function(){}) 실행시켜라
+
+
+    $("div") => div를 다 가져온다?
+    $("#xx") => xx라는 아이디가 배정된 배열을 ?
+
+
+
+금요일-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

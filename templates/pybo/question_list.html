@@ -3,22 +3,32 @@
 {% block content %}
   <table class="table table-bordered table-hover">
     <thead>
-      <tr class="thead-dark">
-        <tr>번호</tr>
-        <tr>제목</tr>
-        <tr>작성일시</tr>
+      <tr class="text-center thead-dark">
+        <th style="width:70px">번호</th>
+        <th>제목</th>
+        <th style="width:170px">글쓴이</th>
+        <th style="width:200px">작성일시</th>
       </tr>
     </thead>
     <tbody>
       {% if question_list %}
         {% for question in question_list %}
-          <tr>
+          <tr class="text-center">
             <td>{{ question.id }}</td>
-            <td>
+            <td class="text-left">
               <a href="{% url 'pybo:detail' question.id %}">
-                {{ question.subject }}</a>
+                {{ question.subject }}
+                {% if question.answer_set.count %}
+                  <span class="ml-2">
+                    <i class="fa-regular fa-comment-dots"></i>
+                    <sub>{{ question.answer_set.count }}</sub>
+                  </span>
+                {% endif %}
+              </a>
             </td>
-            <td>{{ question.create_date }}</td>
+            <td>{{ question.author.username }}</td>
+            {% comment %} <td>{{ question.create_date }}</td> {% endcomment %}
+            <td>{{ question.create_date|date:'Y-m-d H:i' }}</td>
           </tr>
         {% endfor %}
       {% else %}
