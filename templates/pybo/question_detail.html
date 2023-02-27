@@ -37,8 +37,7 @@
       {% if request.user == question.author %}
         <div class="my-3">
           <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-          {% comment %} <a href="#" class="delete btn btn-sm btn-outline-secondary" data-uri="{% url 'pybo:question_delete' question.id %}">삭제</a> {% endcomment %}
-          <a href="#" class="delete btn btn-sm btn-outline-secondary text-danger" data-uri="삭제 URI">삭제</a>
+          <a href="#" class="delete btn btn-sm btn-outline-secondary text-danger" data-uri="{% url 'pybo:question_delete' question.id %}">삭제</a>
         </div>
       {% endif %}
     </div>
@@ -92,7 +91,15 @@
 <script>
   $(document).ready(function(){
     console.log('로딩 완료');
-    console.log($('.delete'));
+    let btns = ($('.delete'));  // 변수 선언 키워드 let
+    btns.on('click', function(){
+      console.log('click 발생');
+      let answer = confirm('정말 삭제할까요?');
+      if (answer) {
+        location.href = ($(this).data('uri'))
+      } //console.log($(this).data('uri'))
+    });
+    console.log('click 이벤트 핸들러 등록 완료')
   });
 </script>
 {% endblock script %}

@@ -893,12 +893,37 @@ python manage.py runserver
 
 
 
-금요일-----------------------------------------
+월요일-----------------------------------------
 
 
 
+$().ready()
+첫 괄호 내용이 준비가 되어 사용 가능하면 두번째 괄호의 함수를 호출 및 실행한다.
+
+document(첫괄호) => html객체(문서)
+
+$(".delete").on('click', function() {  ==> click이벤트가 발생하면 function()을 실행해줘.
+
+}
+on => 시점(전치사?)
+자주 쓰이는 곳(on) ==>'click', 'keyup', 'mouse move', 'abclick'....
 
 
+python:self
+$(this).data('uri');
+$(선택자)
+현재 사용중인 인스턴스 참조 변수
+
+click 이벤트를 발생한 인스턴스에 대한 참조
+location.href = $(this).data('uri'); 해당 url로 브라우저가 이동
+location => browser 객체
+
+
+
+path('question/delete/<int:question_id>/', views.question_delete, name='question_delete'),
+
+<int:question_id> => 변환함수:매개변수명
+==> views.question_delete       question_id = 10
 
 
 
