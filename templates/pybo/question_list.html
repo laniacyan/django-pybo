@@ -5,6 +5,7 @@
     <thead>
       <tr class="text-center thead-dark">
         <th style="width:70px">번호</th>
+        <th style="width:70px">추천</th>
         <th>제목</th>
         <th style="width:170px">글쓴이</th>
         <th style="width:200px">작성일시</th>
@@ -15,6 +16,13 @@
         {% for question in question_list %}
           <tr class="text-center">
             <td>{{ question.id }}</td>
+            <td>
+              {% if question.voter.all.count > 0 %}
+              <span class="badge badge-warning px-2 py-1">
+                {{ question.voter.all.count }}
+              </span>
+              {% endif %}
+            </td>
             <td class="text-left">
               <a href="{% url 'pybo:detail' question.id %}">
                 {{ question.subject }}
