@@ -23,6 +23,12 @@ fonts.google.com에서 수많은 폰트를 찾을 수 있다.
     width: 100%;
 }
 
+.comment {
+    border-top: dotted 1px #ddd;
+    font-size: 0.7em;
+}
+
+
 @media(min-width:540px) {   /* 최소폭(width)이 540 이상이면 */
     .auth-form{
         width: 540px;

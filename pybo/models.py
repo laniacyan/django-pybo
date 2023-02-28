@@ -25,6 +25,20 @@ class Answer(models.Model):
         # return self.question
         return f'{self.id} {self.subject}'
 
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    # User.comment_set
+    content = models.TextField('댓글내용')
+    create_date = models.DateTimeField('생성일')
+    modify_date = models.DateTimeField('수정일', null=True, blank=True)
+    question = models.ForeignKey(Question, null=True, blank=True, on_delete=models.CASCADE)
+    # Question.comment_set
+
+    answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE)
+    # Answer.comment_set
+
+    def __str__(self):
+        return self.content
 
 
 
