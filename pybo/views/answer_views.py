@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -23,7 +23,14 @@ def answer_create(request, question_id):
             answer.create_date = timezone.now()
             answer.question = question  # Foreignkey
             answer.save()
-            return redirect('pybo:detail', question_id=question_id)
+            # 앵커 #answer_5 추가
+            url = resolve_url('pybo:detail', question_id=question_id)
+
+            # 아래 2 코드중 어느 코드를 쓰던 된다.
+            return redirect(f'{url}#answer_{answer.id}')
+            # url = url + f'#answer_{answer.id}'
+            # return redirect(url)
+            
     else: # get 방식.
         form = AnswerForm()
     context = {'question': question, 'form': form}
@@ -47,7 +54,10 @@ def answer_modify(request, answer_id):
             answer.author = request.user
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect('pybo:detail', question_id=answer.question.id)
+            url = resolve_url('pybo:detail', question_id=answer.question.id)
+
+            url = url + f'#answer_{answer.id}'
+            return redirect(url)
     else: #GET처리
         form = AnswerForm(instance=answer)
 

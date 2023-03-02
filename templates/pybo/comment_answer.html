@@ -3,6 +3,7 @@
     <div class="cark-body">
 
       {% if answer.comment_set.count > 0 %}
+        <a name="comment_{{comment.id}}"></a>
         <div class="mt-3">
           {% for comment in answer.comment_set.all %}
             <div class="comment py-2 text-muted">
