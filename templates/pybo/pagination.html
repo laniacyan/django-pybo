@@ -4,12 +4,14 @@
   {% if question_list.has_previous %}
     <!-- 이전페이지 -->
     <li class="page-item">
-      <a class="page-link" href="?page=1">
+      <!-- <a class="page-link" href="?page=1"> -->
+      <a class="page-link" href="#" data-page="1">
         <i class="fa-solid fa-angles-left"></i>
       </a>
     </li>
     <li class="page-item">
-      <a class="page-link" href="?page={{ question_list.previous_page_number }}">
+      <!-- <a class="page-link" href="?page={{ question_list.previous_page_number }}"> -->
+      <a class="page-link" href="#" data-page="{{ question_list.previous_page_number }}">
         <i class="fa-solid fa-angle-left"></i>
       </a>
     </li>
@@ -28,14 +30,16 @@
   <!-- 페이지리스트 -->
 
   {% for page_number in question_list.paginator.page_range %}
-    {% if page_number >= question_list.number|add:-3 and page_number <= question_list.number|add:3 %}
+  {% if page_number >= question_list.number|add:-3 and page_number <= question_list.number|add:3 %}
       {% if page_num == question_list.number %}
         <li class="page-item active" aria-current="page">
-          <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+          <!-- <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a> -->
+          <a class="page-link" href="#">{{ page_number }}</a>
         </li>
       {% else %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+          <!-- <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a> -->
+          <a class="page-link" href="#" data-page="{{ page_number }}">{{ page_number }}</a>
         </li>
       {% endif %}
     {% endif %}
@@ -44,12 +48,14 @@
   {% if question_list.has_next %}
     <!-- 다음페이지 -->
     <li class="page-item">
-      <a class="page-link" href="?page={{ question_list.next_page_number }}">
+      <!-- <a class="page-link" href="?page={{ question_list.next_page_number }}"> -->
+      <a class="page-link" href="#" data-page="{{ question_list.next_page_number }}">
         <i class="fa-solid fa-angle-right"></i>
       </a>
     </li>
     <li class="page-item">
-      <a class="page-link" href="?page={{ question_list.paginator.num_pages }}">
+      <!-- <a class="page-link" href="?page={{ question_list.paginator.num_pages }}"> -->
+      <a class="page-link" href="#" data-page="{{ question_list.paginator.num_pages }}">
         <i class="fa-solid fa-angles-right"></i>
       </a>
     </li>
